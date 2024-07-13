@@ -20,7 +20,9 @@ const addSchema = z.object({
     image: fileSchema.refine(file => file.size > 0, "Required")
 })
 
-export async function addProduct(formData: FormData) {
+export async function addProduct(prevState: unknown, formData: FormData) {
+    const isAvailableForPurchase = false;
+
     const result = addSchema.safeParse(Object.fromEntries(formData.entries()))
     
     if (result.success === false) {
@@ -42,7 +44,8 @@ export async function addProduct(formData: FormData) {
         description,
         priceInCents,
         filePath,
-        imagePath
+        imagePath,
+        isAvailableForPurchase
     }})
 
     redirect("/admin/products")
