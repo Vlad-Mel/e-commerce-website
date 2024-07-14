@@ -1,6 +1,6 @@
 'use server'
 import db from "@/database/db";
-import { ActiveToggleDropdownItemProps } from "@/interfaces/Product";
+import fs from "fs/promises"
 import { notFound } from "next/navigation";
 
 export async function getProductData() {
@@ -34,4 +34,8 @@ export async function deleteProduct(id: string) {
     })
 
     if (product == null) return notFound()
+
+    fs.unlink(product.filePath)
+    fs.unlink(`public${product.imagePath}`)
+
 }
